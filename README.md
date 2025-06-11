@@ -1,6 +1,6 @@
 # 🔐 Login Oculto
 
-[![Licença MIT](https://img.shields.io/badge/Licença-MIT-green.svg)](https://github.com/LuisCarlos/login-oculto/blob/main/LICENSE)
+[![Licença MIT](https://img.shields.io/badge/Licença-MIT-green.svg)](https://github.com/LuisCarlos01/login-oculto/blob/main/LICENSE)
 [![Estilo de Código: Prettier](https://img.shields.io/badge/code%20style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
 [![ESLint](https://img.shields.io/badge/ESLint-enabled-blue.svg)](https://eslint.org/)
 
@@ -40,26 +40,29 @@ Interface moderna e minimalista de login com animações suaves e integração G
 ## 📦 Instalação
 
 1. Clone o repositório:
-   ```bash
-   git clone https://github.com/LuisCarlos/login-oculto.git
-   ```
+
+    ```bash
+    git clone https://github.com/LuisCarlos01/login-oculto.git
+    ```
 
 2. Instale as dependências:
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 3. Configure o Google OAuth:
-   - Acesse o [Google Cloud Console](https://console.cloud.google.com)
-   - Crie um novo projeto ou selecione um existente
-   - Configure a tela de consentimento OAuth
-   - Crie credenciais OAuth 2.0
-   - Substitua `SEU_CLIENT_ID_AQUI` no arquivo `index.html`
+
+    - Acesse o [Google Cloud Console](https://console.cloud.google.com)
+    - Crie um novo projeto ou selecione um existente
+    - Configure a tela de consentimento OAuth
+    - Crie credenciais OAuth 2.0
+    - Substitua `SEU_CLIENT_ID_AQUI` no arquivo `index.html`
 
 4. Inicie o servidor de desenvolvimento:
-   ```bash
-   npm start
-   ```
+    ```bash
+    npm start
+    ```
 
 ## 🔧 Configuração
 
@@ -142,11 +145,12 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 👤 Autor
 
 Luis Carlos
-- GitHub: [@LuisCarlos](https://github.com/LuisCarlos)
+
+- GitHub: [@LuisCarlos01](https://github.com/LuisCarlos01)
 - LinkedIn: [@seu-linkedin](https://linkedin.com/in/seu-linkedin)
 
 ## 🌟 Agradecimentos
 
 - Google Identity Services pela documentação clara
 - Font Awesome pelos ícones incríveis
-- Comunidade open source por inspiração e recursos 
+- Comunidade open source por inspiração e recursos

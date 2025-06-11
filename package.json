@@ -19,16 +19,16 @@
         "html5",
         "javascript"
     ],
-    "author": "Luis Carlos (https://github.com/LuisCarlos)",
+    "author": "Luis Carlos (https://github.com/LuisCarlos01)",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/LuisCarlos/login-oculto.git"
+        "url": "git+https://github.com/LuisCarlos01/login-oculto.git"
     },
     "bugs": {
-        "url": "https://github.com/LuisCarlos/login-oculto/issues"
+        "url": "https://github.com/LuisCarlos01/login-oculto/issues"
     },
-    "homepage": "https://github.com/LuisCarlos/login-oculto#readme",
+    "homepage": "https://github.com/LuisCarlos01/login-oculto#readme",
     "devDependencies": {
         "eslint": "^8.56.0",
         "prettier": "^3.1.1",
@@ -45,4 +45,4 @@
             "prettier --write"
         ]
     }
-} 
+}
