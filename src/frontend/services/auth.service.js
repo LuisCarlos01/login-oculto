@@ -21,33 +21,52 @@ class AuthManager {
     async initGoogleAuth() {
         try {
             // Carrega o cliente Google
-            await new Promise((resolve) => {
+            await new Promise((resolve, reject) => {
                 const script = document.createElement('script');
                 script.src = 'https://accounts.google.com/gsi/client';
                 script.async = true;
                 script.defer = true;
                 script.onload = resolve;
+                script.onerror = reject;
                 document.head.appendChild(script);
             });
 
+            // Verifica se o clientId está configurado
+            if (!config.googleClientId) {
+                throw new Error('Google Client ID não configurado');
+            }
+
             // Inicializa o cliente Google
             google.accounts.id.initialize({
-                clientId: config.googleClientId,
-                autoSelect: false,
+                client_id: config.googleClientId,
                 callback: this.handleGoogleResponse.bind(this),
-                cancelOnTapOutside: true,
-                context: 'signin',
-                uxMode: 'popup',
-                useFedcmForPrompt: true
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+
+            // Configura o One Tap (desabilitado por enquanto devido à depreciação)
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed()) {
+                    console.warn('One Tap não exibido:', notification.getNotDisplayedReason());
+                } else if (notification.isSkippedMoment()) {
+                    console.warn('One Tap pulado:', notification.getSkippedReason());
+                } else if (notification.isDismissedMoment()) {
+                    console.warn('One Tap dispensado:', notification.getDismissedReason());
+                }
             });
         } catch (error) {
             console.error('Erro ao inicializar Google Auth:', error);
+            this.handleAuthError(error);
         }
     }
 
     // Handler para resposta do Google
     async handleGoogleResponse(response) {
         try {
+            if (!response.credential) {
+                throw new Error('Credencial não fornecida pelo Google');
+            }
+
             // Decodifica o token JWT
             const payload = this.decodeJwtResponse(response.credential);
 
@@ -71,12 +90,25 @@ class AuthManager {
             }, 1000);
         } catch (error) {
             console.error('Erro no login Google:', error);
-            window.dispatchEvent(
-                new CustomEvent('auth:error', {
-                    detail: { message: 'Erro ao processar login com Google' }
-                })
-            );
+            this.handleAuthError(error);
         }
+    }
+
+    // Tratamento centralizado de erros
+    handleAuthError(error) {
+        let message = 'Erro ao processar login com Google';
+
+        if (error.message === 'Google Client ID não configurado') {
+            message = 'Erro de configuração: ID do cliente Google não encontrado';
+        } else if (error.message === 'Credencial não fornecida pelo Google') {
+            message = 'Erro de autenticação: credenciais inválidas';
+        }
+
+        window.dispatchEvent(
+            new CustomEvent('auth:error', {
+                detail: { message }
+            })
+        );
     }
 
     // Decodifica o token JWT do Google

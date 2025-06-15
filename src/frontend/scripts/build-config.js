@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -15,7 +17,8 @@ const configPath = path.join(__dirname, '..', 'js', 'config.js');
 let configContent = fs.readFileSync(configPath, 'utf8');
 
 // Substitui as variáveis de ambiente
-configContent = configContent.replace('{{GOOGLE_CLIENT_ID}}', process.env.GOOGLE_CLIENT_ID || '');
+const googleClientId = process.env.GOOGLE_CLIENT_ID || '';
+configContent = configContent.replace('{{GOOGLE_CLIENT_ID}}', googleClientId);
 
 // Escreve o arquivo de configuração atualizado
 fs.writeFileSync(configPath, configContent);

@@ -1,17 +1,24 @@
 {
     "name": "login-oculto",
     "version": "1.0.0",
-    "description": "Interface moderna de login com animações e integração Google OAuth",
-    "main": "index.html",
+    "description": "Sistema moderno de autenticação com interface responsiva e integração Google OAuth",
     "type": "module",
     "scripts": {
-        "start": "npm run build:config && serve .",
-        "build": "npm run build:config",
-        "build:config": "node scripts/build-config.js",
+        "dev": "npm run build:config && concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+        "dev:frontend": "serve src/frontend",
+        "dev:backend": "nodemon src/backend/server.js",
+        "build": "npm run build:frontend && npm run build:backend",
+        "build:frontend": "npm run build:config",
+        "build:backend": "echo \"Backend build not implemented yet\"",
+        "build:config": "node src/frontend/scripts/build-config.js",
+        "start": "node src/backend/server.js",
         "lint": "eslint . --ext .js",
         "lint:fix": "eslint . --ext .js --fix",
         "format": "prettier --write \"**/*.{js,json,css,html,md}\"",
         "format:check": "prettier --check \"**/*.{js,json,css,html,md}\"",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
         "prepare": "husky install"
     },
     "keywords": [
@@ -21,7 +28,11 @@
         "animation",
         "css3",
         "html5",
-        "javascript"
+        "javascript",
+        "typescript",
+        "node",
+        "express",
+        "mongodb"
     ],
     "author": "Luis Carlos (https://github.com/LuisCarlos01)",
     "license": "MIT",
@@ -33,13 +44,29 @@
         "url": "https://github.com/LuisCarlos01/login-oculto/issues"
     },
     "homepage": "https://github.com/LuisCarlos01/login-oculto#readme",
-    "devDependencies": {
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5",
         "dotenv": "^16.3.1",
+        "helmet": "^7.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.0.3",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/jest": "^29.5.11",
+        "@types/node": "^20.10.5",
+        "concurrently": "^8.2.2",
         "eslint": "^8.56.0",
-        "prettier": "^3.1.1",
         "husky": "^8.0.3",
+        "jest": "^29.7.0",
         "lint-staged": "^15.2.0",
-        "serve": "^14.2.1"
+        "nodemon": "^3.0.2",
+        "prettier": "^3.1.1",
+        "serve": "^14.2.1",
+        "supertest": "^6.3.3",
+        "typescript": "^5.3.3"
     },
     "lint-staged": {
         "*.js": [
