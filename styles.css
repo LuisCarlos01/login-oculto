@@ -1,6 +1,6 @@
 :root {
     /* Paleta principal */
-    --ipass-primary: #02AB89;
+    --ipass-primary: #02ab89;
     --primary-600: #059669;
     --primary-500: #10b981;
     --primary-400: #34d399;
@@ -29,38 +29,29 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
 }
 
-/* Efeito de partículas no fundo */
+/* Removendo os pseudo-elementos que criavam as bolhas */
 body::before,
 body::after {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: var(--ipass-primary);
-    filter: blur(100px);
-    opacity: 0.2;
-    animation: float 10s infinite ease-in-out;
+    display: none;
 }
 
-body::before {
-    top: -150px;
-    left: -150px;
-    animation-delay: -5s;
-}
-
-body::after {
-    bottom: -150px;
-    right: -150px;
-}
-
+/* Removendo a animação float que não será mais necessária */
 @keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(30px, 30px); }
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(30px, 30px);
+    }
+}
+
+/* Mantendo apenas a transição básica do card */
+.login-card {
+    transition: all 0.3s ease;
+    transform: none !important; /* Garante que não haverá transformações residuais */
 }
 
 .container {
@@ -74,47 +65,90 @@ body::after {
 .login-card {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
-    padding: 2.5rem;
     border-radius: 1.5rem;
     box-shadow: 0 8px 32px var(--shadow-color);
     text-align: center;
-    transform: translateY(0);
-    transition: all 0.3s ease;
-    border: 1px solid var(--glass-border);
     position: relative;
-    overflow: hidden;
-    animation: fadeIn 0.8s ease-out;
+    padding: 2.5rem;
+    isolation: isolate;
+    --border-width: 2px;
+    --border-radius: 1.5rem;
+    --gradient-angle: 0deg;
 }
 
-/* Efeito de brilho na borda */
+/* Gradiente animado otimizado */
 .login-card::before {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent,
-        transparent,
+    inset: calc(-1 * var(--border-width));
+    border-radius: var(--border-radius);
+    background: conic-gradient(
+        from var(--gradient-angle),
         var(--primary-400),
-        transparent,
-        transparent
+        var(--ipass-primary),
+        var(--primary-600),
+        var(--primary-500),
+        var(--primary-400)
     );
-    transform: rotate(45deg);
-    animation: borderGlow 6s linear infinite;
-    opacity: 0.3;
+    animation: rotate-gradient 4s linear infinite;
+    z-index: -2;
+    will-change: transform;
+    transform-origin: center;
 }
 
-@keyframes borderGlow {
-    0% { transform: rotate(45deg) translateX(-100%); }
-    100% { transform: rotate(45deg) translateX(100%); }
+/* Máscara interna com borda precisa */
+.login-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: calc(var(--border-radius) - var(--border-width));
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: -1;
 }
 
-.login-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 45px var(--shadow-color);
+/* Animação otimizada usando transform */
+@property --gradient-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes rotate-gradient {
+    from {
+        --gradient-angle: 0deg;
+    }
+    to {
+        --gradient-angle: 360deg;
+    }
+}
+
+/* Efeito de hover aprimorado */
+.login-card:hover::before {
+    animation: rotate-gradient 2s linear infinite;
+    background: conic-gradient(
+        from var(--gradient-angle),
+        var(--primary-400),
+        var(--ipass-primary),
+        var(--primary-600),
+        var(--primary-500),
+        var(--primary-400)
+    );
+    filter: brightness(1.2) saturate(1.2);
+}
+
+/* Otimização de performance */
+.login-card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000;
+    transform-style: preserve-3d;
+}
+
+/* Ajuste do conteúdo interno */
+.login-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .logo {
@@ -141,8 +175,12 @@ body::after {
 }
 
 @keyframes shine {
-    0% { transform: translateX(-100%) rotate(45deg); }
-    100% { transform: translateX(100%) rotate(45deg); }
+    0% {
+        transform: translateX(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) rotate(45deg);
+    }
 }
 
 .logo:hover {
@@ -285,8 +323,14 @@ h1::after {
 
 /* Animação de carregamento da página */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .login-card {
@@ -323,8 +367,12 @@ h1::after {
 }
 
 @keyframes loading {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 .login-card.success {
@@ -332,8 +380,13 @@ h1::after {
 }
 
 @keyframes success {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* Efeito de foco nos inputs */
@@ -352,8 +405,13 @@ h1::after {
 }
 
 @keyframes click {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(0.8); }
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.8);
+    }
 }
 
 /* Efeito de hover nos inputs */
@@ -391,9 +449,15 @@ h1::after {
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Efeito de hover no botão Google */
@@ -409,19 +473,18 @@ h1::after {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        transparent
-    );
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     transform: rotate(45deg);
     animation: buttonShine 3s infinite;
 }
 
 @keyframes buttonShine {
-    0% { transform: rotate(45deg) translateX(-100%); }
-    100% { transform: rotate(45deg) translateX(100%); }
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
 }
 
 /* Botão inicial de login */
@@ -589,4 +652,89 @@ h1::after {
 
 .submit-btn:hover i {
     transform: translateX(5px);
-} 
+}
+
+/* Estados de erro e loading */
+.login-card.error {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+.login-card.loading .submit-btn {
+    background: var(--primary-600);
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.login-card.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--ipass-primary), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.error-message {
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo do botão desabilitado */
+.submit-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Ícone de loading */
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}

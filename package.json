@@ -3,11 +3,15 @@
     "version": "1.0.0",
     "description": "Interface moderna de login com animações e integração Google OAuth",
     "main": "index.html",
+    "type": "module",
     "scripts": {
-        "start": "serve .",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "format": "prettier --write .",
+        "start": "npm run build:config && serve .",
+        "build": "npm run build:config",
+        "build:config": "node scripts/build-config.js",
+        "lint": "eslint . --ext .js",
+        "lint:fix": "eslint . --ext .js --fix",
+        "format": "prettier --write \"**/*.{js,json,css,html,md}\"",
+        "format:check": "prettier --check \"**/*.{js,json,css,html,md}\"",
         "prepare": "husky install"
     },
     "keywords": [
@@ -30,6 +34,7 @@
     },
     "homepage": "https://github.com/LuisCarlos01/login-oculto#readme",
     "devDependencies": {
+        "dotenv": "^16.3.1",
         "eslint": "^8.56.0",
         "prettier": "^3.1.1",
         "husky": "^8.0.3",
