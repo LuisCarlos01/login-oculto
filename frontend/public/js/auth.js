@@ -1,4 +1,4 @@
-import config from './config.js';
+import config from '../config/config.js';
 
 // Configurações de validação
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -86,7 +86,7 @@ class AuthManager {
 
             // Redireciona para o dashboard após um pequeno delay
             setTimeout(() => {
-                window.location.href = './dashboard.html';
+                window.location.href = '/pages/dashboard.html';
             }, 1000);
         } catch (error) {
             console.error('Erro no login Google:', error);

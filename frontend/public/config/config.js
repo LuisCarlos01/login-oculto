@@ -4,7 +4,11 @@ const config = {
 };
 
 // Validação do Client ID
-if (config.googleClientId === '{{GOOGLE_CLIENT_ID}}' || !config.googleClientId) {
+if (
+    config.googleClientId ===
+        '436283052176-192uojpfj5mahuo28q4k9jpafijk0tv1.apps.googleusercontent.com' ||
+    !config.googleClientId
+) {
     console.error('ERRO: Google Client ID não configurado. Verifique se:');
     console.error('1. O arquivo .env existe e contém GOOGLE_CLIENT_ID');
     console.error('2. O script build:config foi executado');

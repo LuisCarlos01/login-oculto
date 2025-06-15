@@ -1,4 +1,4 @@
-import { authManager } from './js/auth.js';
+import { authManager } from './auth.js';
 
 // Elementos do DOM
 const loginForm = document.getElementById('loginForm');
